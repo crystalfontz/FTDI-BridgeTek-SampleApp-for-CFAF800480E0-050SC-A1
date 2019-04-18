@@ -6670,7 +6670,8 @@ void setup()
     /* Our main application */
     
 	/* Sample code for GPU primitives */
-#ifdef SAMAPP_ENABLE_APIS_SET0
+//#ifdef SAMAPP_ENABLE_APIS_SET0
+#if 0
 	SAMAPP_API_Screen("Set0   START");
 	SAMAPP_GPU_Points();
 	SAMAPP_GPU_Lines();
@@ -6703,7 +6704,10 @@ void setup()
 	//SAMAPP_API_Reset_Context();
 	SAMAPP_API_Screen("Set1   START");
 	SAMAPP_CoPro_Logo();
-	SAMAPP_CoPro_Widget_Calibrate();
+//CFAF800480E0-050SC-A1
+// Touch is already calibrated.
+//	SAMAPP_CoPro_Widget_Calibrate();
+/*
 	SAMAPP_CoPro_Widget_Clock();
 	SAMAPP_CoPro_Widget_Guage();
 	SAMAPP_CoPro_Widget_Gradient();
@@ -6714,11 +6718,20 @@ void setup()
 	SAMAPP_CoPro_Widget_Slider();
 	SAMAPP_CoPro_Widget_Dial();
 	SAMAPP_CoPro_Widget_Toggle();
+*/
 	SAMAPP_CoPro_Widget_Spinner();
+  //CFAF800480E0-050SC-A1
+  #if 0 // power is super boring without instruments
 	#ifndef BT815_ENABLE
-	SAMAPP_PowerMode();
+  	SAMAPP_PowerMode();
+  //CFAF800480E0-050SC-A1
+  //Re-enable touch after power
+  SAMAPP_CoPro_Widget_Calibrate();
 	#endif
-	SAMAPP_CoPro_Widget_Calibrate();
+  #endif
+//CFAF800480E0-050SC-A1
+// Touch is already calibrated.
+//	SAMAPP_CoPro_Widget_Calibrate();
 	SAMAPP_Touch();
 
 	SAMAPP_API_Screen("Set1   END!");
@@ -6747,7 +6760,9 @@ void setup()
 	SAMAPP_CoPro_Widget_Number();
 	SAMAPP_CoPro_Widget_Button();
 	SAMAPP_CoPro_AppendCmds();
-	SAMAPP_CoPro_Widget_Calibrate();
+//CFAF800480E0-050SC-A1
+// Touch is already calibrated.
+//	SAMAPP_CoPro_Widget_Calibrate();
 
 	Gpu_Hal_Wr8(phost, REG_VOL_SOUND, 255);
 	SAMAPP_Sound();
@@ -6785,7 +6800,9 @@ void setup()
 #if defined(FT801_ENABLE) || defined(FT811_ENABLE) || defined(FT813_ENABLE) || defined(BT815_ENABLE)
 	//SAMAPP_API_Reset_Context();
 	SAMAPP_API_Screen("Set6   Start!");
-	SAMAPP_CoPro_Widget_Calibrate();
+//CFAF800480E0-050SC-A1
+// Touch is already calibrated.
+//	SAMAPP_CoPro_Widget_Calibrate();
 	SAMAPP_API_Screen("Touch to play song");
 	MainWindow();
 	SAMAPP_API_Screen("Set6   End!");
@@ -6797,7 +6814,9 @@ void setup()
 #if defined(FT801_ENABLE) || defined(FT811_ENABLE) || defined(FT813_ENABLE) || defined(BT815_ENABLE)
 	//SAMAPP_API_Reset_Context();
 	SAMAPP_API_Screen("Set7   Start!");
-	SAMAPP_CoPro_Widget_Calibrate();
+//CFAF800480E0-050SC-A1
+// Touch is already calibrated.
+//	SAMAPP_CoPro_Widget_Calibrate();
 	SAMAPP_API_Screen("Multi-touch on screen.");
 	Gpu_Hal_Sleep(2000);
 	SAMAPP_API_Screen("Bouncing Squares");
@@ -6822,7 +6841,9 @@ void setup()
 	
 	
 	SAMAPP_API_Screen("Set8   Start!");
-	SAMAPP_CoPro_Widget_Calibrate();
+//CFAF800480E0-050SC-A1
+// Touch is already calibrated.
+//	SAMAPP_CoPro_Widget_Calibrate();
 
 	Gpu_CoCmd_ColdStart(phost);
 

@@ -81,6 +81,8 @@ void App_WrCoCmd_Buffer(Gpu_Hal_Context_t *phost,uint32_t cmd)
 void App_WrDl_Buffer(Gpu_Hal_Context_t *phost,uint32_t cmd)
 {
 #ifdef BUFFER_OPTIMIZATION  
+//CFAF800480E0-050SC-A1
+#if 0 // This code seems obtuse
     /* Copy the command instruction into buffer */
     uint32_t *pBuffcmd;
 	/* Prevent buffer overflow */
@@ -93,8 +95,24 @@ void App_WrDl_Buffer(Gpu_Hal_Context_t *phost,uint32_t cmd)
 	{
 		printf("DlBuffer overflow\n");
 	}
+//CFAF800480E0-050SC-A1
+#else  // Hopefully this is more clear.
+	// Copy the command instruction into buffer 
+	// Prevent buffer overflow
+	if (DlBuffer_Index < DL_SIZE)
+	{
+		//Write our 32-bit value into the correct location within
+		//the 8-bit array. Don't be afraid--you don't need a local.
+		*(uint32_t*)(&DlBuffer[DlBuffer_Index])=cmd;
+	}
+	else
+	{
+		printf("DlBuffer overflow\n");
+	}
+//CFAF800480E0-050SC-A1
+#endif //obtuse else clear
 
-#endif
+#endif	// ifdef BUFFER_OPTIMIZATION
 
 #if ( defined(FT900_PLATFORM) || defined(FT93X_PLATFORM) || defined(ARDUINO_PLATFORM) )
     Gpu_Hal_Wr32(phost,(RAM_DL+DlBuffer_Index),cmd);
@@ -986,7 +1004,35 @@ void App_Common_Init(Gpu_Hal_Context_t *phost)
     phost->hal_config.spi_cs_pin_no = FT800_SEL_PIN;
 
     #if defined(MSVC_PLATFORM) && defined(MSVC_PLATFORM_SPI_LIBMPSSE)
-    phost->hal_config.spi_clockrate_khz = 12000; //in KHz
+	//CFAF800480E0-050SC-A1
+	//Default FTDI clock setting code
+    //phost->hal_config.spi_clockrate_khz = 12000; //in KHz
+    //	
+    // According to AN_108, p20:
+    // https://www.ftdichip.com/Support/Documents/AppNotes/AN_108_Command_Processor_for_MPSSE_and_MCU_Host_Bus_Emulation_Modes.pdf
+	// The available speeds are based on integer division of a 30MHz clock. If so, these are the
+	// only speeds supported:
+	// 
+	//   30,000,000
+	//   15,000,000
+	//   10,000,000
+	//    7,500,000
+	//    6,000,000
+	//    5,000,000
+	//    4,285,714
+	//    3,750,000
+	//    3,333,333
+	//    3,000,000
+	//    2,727,273
+	//    2,500,000
+	//    2,307,692
+	//    2,142,857
+	//    2,000,000
+	//    . . . 
+	//
+	// If you have a long FFC or poor termination you may need to reduce this.
+	// Using a shortened C232HM-DDHSL-0 and 150mm FFC we were able to relaibly use 30MHz
+    phost->hal_config.spi_clockrate_khz = 15000; //specified in KHz, so this is 15MHz
     #elif defined(MSVC_PLATFORM) && defined(MSVC_PLATFORM_SPI_LIBFT4222)
     #if defined(HAL_CLK_COMPUTE_TEST)
     FT4222_ClockRate selclk = 0;

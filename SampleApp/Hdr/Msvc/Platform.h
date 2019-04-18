@@ -39,12 +39,14 @@ Revision History:
 #define MSVC_PLATFORM                             (1)    // enable by default for MSVC platform
 
 
+//CFAF800480E0-050SC-A1
+//Don't define any of the pre-configured modules
 //#define VM800B43_50                           (1)
 //#define VM800B35                              (1)
 //#define VM801B43_50                           (1)
 //#define VM810C50                              (1)
 //#define ME812AU_WH50R                         (1)
-#define ME813AU_WH50C                         (1)
+//#define ME813AU_WH50C                         (1)
 
 #ifdef VM800B43_50
 /* Define all the macros specific to VM800B43_50 module */
@@ -117,31 +119,42 @@ Revision History:
 /* Custom configuration */
 #if (!defined(VM800B43_50) && !defined(VM800B35) && !defined(VM801B43_50) && !defined(VM810C50)  && !defined(ME812AU_WH50R) && !defined(ME813AU_WH50C) && !defined(ME810AU_WH70R) && !defined(ME811AU_WH70C))
 
-/* Display configuration specific macros */
-#define DISPLAY_RESOLUTION_QVGA                 (1)
-#define DISPLAY_RESOLUTION_WQVGA                (1)
+/* Display configuration specific macros */	
+// The code drops into here if no pre-defined display is selected above.
+//CFAF800480E0-050SC-A1
+//Turn off all but WVGA. We will override the default timings of WVGA in gpu.h
+//#define DISPLAY_RESOLUTION_QVGA                 (1)
+//#define DISPLAY_RESOLUTION_WQVGA                (1)
 #define DISPLAY_RESOLUTION_WVGA                 (1)
-#define DISPLAY_RESOLUTION_HVGA_PORTRAIT        (1)
+//#define DISPLAY_RESOLUTION_HVGA_PORTRAIT        (1)
 
 /* Chip configuration specific macros */
-#define FT800_ENABLE                            (1)
-#define FT801_ENABLE                            (1)
-#define FT810_ENABLE                            (1)
-#define FT811_ENABLE                            (1)
-#define FT812_ENABLE                            (1)
+//CFAF800480E0-050SC-A1
+//Turn off all but FT813
+//#define FT800_ENABLE                            (1)
+//#define FT801_ENABLE                            (1)
+//#define FT810_ENABLE                            (1)
+//#define FT811_ENABLE                            (1)
+//#define FT812_ENABLE                            (1)
 #define FT813_ENABLE                            (1)
 
-/* SPI specific macros - compile time switches for SPI single, dial and quad use cases */
+/* SPI specific macros - compile time switches for SPI single, dual and quad use cases */
+//CFAF800480E0-050SC-A1
+//The C232HM MPSSE USB to SPI cable is single SPI
 #define ENABLE_SPI_SINGLE                        (1)
-#define ENABLE_SPI_DUAL                          (1)
-#define ENABLE_SPI_QUAD                          (1)
+//#define ENABLE_SPI_DUAL                          (1)
+//#define ENABLE_SPI_QUAD                          (1)
 
 /* Display driver configurations - mainly for ME900EV1 modules */
-#define ENABLE_ILI9488_HVGA_PORTRAIT            (1)
+//CFAF800480E0-050SC-A1
+//FTDI default is defined
+//#define ENABLE_ILI9488_HVGA_PORTRAIT            (1)
 
 /* Enable MPSSE or Lib4222 based on module */
+//CFAF800480E0-050SC-A1
+//The C232HM MPSSE USB to SPI cable is single SPI
 #define MSVC_PLATFORM_SPI_LIBMPSSE                (1)    
-#define    MSVC_PLATFORM_SPI_LIBFT4222            (1)
+//#define MSVC_PLATFORM_SPI_LIBFT4222               (1)
 
 #endif
 
